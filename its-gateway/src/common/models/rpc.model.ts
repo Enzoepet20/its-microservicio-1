@@ -1,4 +1,4 @@
-export interface RcpResponse {
+export interface RpcResponse {
   statusCode: number;
   error: string;
 }
