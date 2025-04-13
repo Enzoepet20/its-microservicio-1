@@ -14,6 +14,7 @@ async function bootstrap() {
       },
     },
   );
+
   console.info(`Microservicio escuchando desde le puerto: ${envs.PORT}`);
   await app.listen();
 }
