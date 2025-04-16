@@ -1,12 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { UserController } from './user.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { envs } from './config/envs';
-import { MS_USER } from './common/constants/user-ms.constant';
-import { UserModule } from './user/user.module';
+import { MS_USER } from 'src/common/constants/user-ms.constant';
+import { envs } from 'src/config/envs';
 
 @Module({
-  controllers: [AppController],
+  controllers: [UserController],
   imports: [
     ClientsModule.register([
       {
@@ -18,7 +17,6 @@ import { UserModule } from './user/user.module';
         },
       },
     ]),
-    UserModule,
   ],
 })
-export class AppModule {}
+export class UserModule {}
