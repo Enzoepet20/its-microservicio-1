@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { envs } from './config/envs';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
@@ -9,12 +9,12 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        host: 'localhost',
-        port: envs.PORT,
+        host: envs.gateway.host,
+        port: envs.port,
       },
     },
   );
-  console.info(`Microservicio escuchando desde le puerto: ${envs.PORT}`);
   await app.listen();
+  console.log(`Usuarios MS listening on ${envs.port}`);
 }
 bootstrap();
