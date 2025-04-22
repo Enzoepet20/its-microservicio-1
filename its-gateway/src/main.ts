@@ -4,7 +4,7 @@ import { envs } from './config/envs';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  console.info(`Gateway escuchando desde el puerto: ${envs.PORT}`);
+  console.log(`Gateway listening on port ${envs.PORT}`);
   await app.listen(envs.PORT);
 }
 bootstrap();
