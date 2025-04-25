@@ -1,37 +1,32 @@
 import * as dotenv from 'dotenv';
-import * as joi from 'joi';
+import * as Joi from 'joi';
 
 dotenv.config();
 
-interface EnvVars {
-  PORT: number;
-  MS_USER_HOST: string;
-  MS_USER_PORT: number;
-  MS_PRODUCT_HOST: string;
-  MS_PRODUCT_PORT: number;
-  MS_INVOICE_HOST: string;
-  MS_INVOICE_PORT: number;
-}
-
-const schema = joi.object({
-  PORT: joi.number().required(),
-  MS_USER_HOST: joi.string().required(),
-  MS_USER_PORT: joi.number().required(),
-  MS_PRODUCT_HOST: joi.string().required(),
-  MS_PRODUCT_PORT: joi.number().required(),
-  MS_INVOICE_HOST: joi.string().required(),
-  MS_INVOICE_PORT: joi.number().required(),
+const schema = Joi.object({
+  PORT: Joi.number().required(),
+  JWT_SECRET: Joi.string().required(),
+  JWT_EXPIRES_IN: Joi.string().required(),
+  MS_USER_HOST: Joi.string().required(),
+  MS_USER_PORT: Joi.number().required(),
+  MS_PRODUCT_HOST: Joi.string().required(),
+  MS_PRODUCT_PORT: Joi.number().required(),
+  MS_INVOICE_HOST: Joi.string().required(),
+  MS_INVOICE_PORT: Joi.number().required(),
 }).unknown(true);
 
 const { error, value } = schema.validate(process.env);
 if (error) throw new Error(`Config validation error: ${error.message}`);
 
-const env: EnvVars = value;
 export const envs = {
-  PORT: env.PORT,
-  MS: {
-    USER: { host: env.MS_USER_HOST, port: env.MS_USER_PORT },
-    PRODUCT: { host: env.MS_PRODUCT_HOST, port: env.MS_PRODUCT_PORT },
-    INVOICE: { host: env.MS_INVOICE_HOST, port: env.MS_INVOICE_PORT },
+  port: value.PORT,
+  jwt: {
+    secret: value.JWT_SECRET,
+    expiresIn: value.JWT_EXPIRES_IN,
+  },
+  microservices: {
+    user: { host: value.MS_USER_HOST, port: value.MS_USER_PORT },
+    product: { host: value.MS_PRODUCT_HOST, port: value.MS_PRODUCT_PORT },
+    invoice: { host: value.MS_INVOICE_HOST, port: value.MS_INVOICE_PORT },
   },
 };
